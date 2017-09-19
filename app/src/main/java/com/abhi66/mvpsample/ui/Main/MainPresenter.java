@@ -4,6 +4,8 @@ import com.abhi66.mvpsample.ui.Base.BasePresenter;
 
 import java.util.Random;
 
+import javax.inject.Inject;
+
 /**
  * @author Abhishek Prajapati
  * @version 1.0.0
@@ -13,6 +15,10 @@ import java.util.Random;
 public class MainPresenter extends BasePresenter<MainContract.View> implements MainContract.Presenter {
 
     private String[] helloTexts = {"BONJOUR", "HOLA", "HALLO", "MERHABA", "HELLO", "CIAO", "KONNICHIWA"};
+
+    @Inject
+    public MainPresenter() {
+    }
 
     @Override
     public void loadHelloText() {

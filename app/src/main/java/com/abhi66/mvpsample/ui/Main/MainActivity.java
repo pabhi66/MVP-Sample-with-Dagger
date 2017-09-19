@@ -9,15 +9,23 @@ import android.widget.TextView;
 import com.abhi66.mvpsample.R;
 import com.abhi66.mvpsample.ui.Base.BaseActivity;
 
-public class MainActivity extends BaseActivity implements MainContract.View, View.OnClickListener {
+import butterknife.BindView;
+import butterknife.OnClick;
 
-    private TextView mTextView;
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View{
 
-    private MainPresenter mPresenter;
+    @BindView(R.id.tvHello)
+    TextView mTextView;
+
+
+    @OnClick(R.id.tvHello)
+    public void onClick() {
+        getPresenter().loadHelloText();
+    }
 
     @Override
-    public void onClick(View view) {
-        mPresenter.loadHelloText();
+    protected void injectDependencies() {
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -27,17 +35,13 @@ public class MainActivity extends BaseActivity implements MainContract.View, Vie
 
     @Override
     protected void init(@Nullable Bundle state) {
-        mTextView = (TextView) findViewById(R.id.tvHello);
-        mTextView.setOnClickListener(this);
-        mPresenter = new MainPresenter();
-        mPresenter.attach(this);
-        mPresenter.loadHelloText();
+        getPresenter().loadHelloText();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.detach();
+        getPresenter().detach();
     }
 
     @Override
